@@ -1,0 +1,1380 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Global SafeNet</title>
+
+<style>
+
+*{
+    box-sizing:border-box;
+    margin:0;
+    padding:0;
+    font-family:Arial,Helvetica,sans-serif;
+}
+
+body{
+    background:#07111f;
+    color:#f1f5f9;
+}
+
+/* ================= HEADER ================= */
+
+header{
+    background:linear-gradient(135deg,#071b33,#123a62);
+    border-bottom:1px solid #31577e;
+    padding:20px 40px;
+}
+
+.header{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    gap:20px;
+}
+
+.logo{
+    font-size:27px;
+    font-weight:bold;
+}
+
+.logo span{
+    color:#38bdf8;
+}
+
+.subtitle{
+    margin-top:6px;
+    color:#9fb3c8;
+}
+
+.alliance{
+    background:#0b2038;
+    border:1px solid #42698f;
+    padding:13px 20px;
+    border-radius:12px;
+}
+
+/* ================= MENU ================= */
+
+nav{
+    background:#091728;
+    border-bottom:1px solid #20374f;
+}
+
+.nav-content{
+    max-width:1400px;
+    margin:auto;
+    display:flex;
+    gap:5px;
+}
+
+.nav-btn{
+    background:transparent;
+    border:0;
+    color:#9fb3c8;
+    padding:16px 20px;
+    cursor:pointer;
+}
+
+.nav-btn:hover,
+.nav-btn.active{
+    background:#122943;
+    color:white;
+}
+
+/* ================= MAIN ================= */
+
+main{
+    max-width:1400px;
+    margin:auto;
+    padding:30px;
+}
+
+.page-title{
+    margin-bottom:25px;
+}
+
+.page-title h1{
+    font-size:32px;
+    margin-bottom:8px;
+}
+
+.page-title p{
+    color:#9fb3c8;
+}
+
+/* ================= STATS ================= */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:15px;
+    margin-bottom:25px;
+}
+
+.stat{
+    background:#0e1d30;
+    border:1px solid #233b55;
+    border-radius:12px;
+    padding:20px;
+}
+
+.stat-title{
+    color:#91a6bc;
+    font-size:13px;
+    margin-bottom:10px;
+}
+
+.stat-number{
+    font-size:30px;
+    font-weight:bold;
+}
+
+.green{
+    color:#4ade80;
+}
+
+.yellow{
+    color:#facc15;
+}
+
+.red{
+    color:#f87171;
+}
+
+/* ================= CONTROLS ================= */
+
+.controls{
+    background:#0e1d30;
+    border:1px solid #233b55;
+    border-radius:12px;
+    padding:20px;
+    margin-bottom:25px;
+}
+
+.controls h2{
+    margin-bottom:15px;
+}
+
+.control-grid{
+    display:grid;
+    grid-template-columns:2fr 1fr 1fr auto;
+    gap:12px;
+}
+
+input,
+select{
+    width:100%;
+    padding:13px;
+    background:#07111f;
+    border:1px solid #38536d;
+    color:white;
+    border-radius:8px;
+    outline:none;
+}
+
+input:focus,
+select:focus{
+    border-color:#38bdf8;
+}
+
+button{
+    cursor:pointer;
+}
+
+.primary{
+    background:#0284c7;
+    color:white;
+    border:0;
+    border-radius:8px;
+    padding:12px 18px;
+    font-weight:bold;
+}
+
+.primary:hover{
+    background:#0369a1;
+}
+
+/* ================= DASHBOARD ================= */
+
+.dashboard{
+    display:grid;
+    grid-template-columns:1.7fr 1fr;
+    gap:20px;
+}
+
+/* ================= MAP ================= */
+
+.map-box{
+    background:#0e1d30;
+    border:1px solid #233b55;
+    border-radius:12px;
+    padding:20px;
+}
+
+.map-box h2{
+    margin-bottom:15px;
+}
+
+.map{
+    height:500px;
+    position:relative;
+    overflow:hidden;
+    border-radius:10px;
+    background:
+        radial-gradient(circle at 25% 40%,#154c62 0 10%,transparent 11%),
+        radial-gradient(circle at 48% 35%,#154c62 0 14%,transparent 15%),
+        radial-gradient(circle at 70% 30%,#154c62 0 13%,transparent 14%),
+        radial-gradient(circle at 80% 65%,#154c62 0 8%,transparent 9%),
+        #09263e;
+}
+
+/* líneas del mapa */
+
+.map:before{
+    content:"";
+    position:absolute;
+    width:100%;
+    height:100%;
+    background:
+      linear-gradient(90deg,
+      transparent 24%,
+      rgba(255,255,255,.05) 25%,
+      transparent 26%,
+      transparent 49%,
+      rgba(255,255,255,.05) 50%,
+      transparent 51%,
+      transparent 74%,
+      rgba(255,255,255,.05) 75%,
+      transparent 76%);
+}
+
+/* marcadores */
+
+.marker{
+    position:absolute;
+    width:20px;
+    height:20px;
+    border-radius:50%;
+    border:3px solid white;
+    cursor:pointer;
+    transition:.2s;
+    box-shadow:0 0 15px currentColor;
+    z-index:5;
+}
+
+.marker:hover{
+    transform:scale(1.5);
+}
+
+.marker.high{
+    background:#ef4444;
+    color:#ef4444;
+}
+
+.marker.medium{
+    background:#f59e0b;
+    color:#f59e0b;
+}
+
+.marker.low{
+    background:#22c55e;
+    color:#22c55e;
+}
+
+.map-label{
+    position:absolute;
+    color:#cbd5e1;
+    font-size:12px;
+    z-index:3;
+}
+
+.map-info{
+    position:absolute;
+    bottom:15px;
+    left:15px;
+    right:15px;
+    background:rgba(3,12,23,.92);
+    padding:14px;
+    border-radius:9px;
+    z-index:10;
+    color:#cbd5e1;
+}
+
+/* ================= EVENTS ================= */
+
+.events{
+    background:#0e1d30;
+    border:1px solid #233b55;
+    border-radius:12px;
+    padding:20px;
+    max-height:500px;
+    overflow:auto;
+}
+
+.event{
+    background:#15273d;
+    border-radius:9px;
+    padding:15px;
+    margin-bottom:12px;
+    border-left:4px solid #64748b;
+}
+
+.event.high{
+    border-left-color:#ef4444;
+}
+
+.event.medium{
+    border-left-color:#f59e0b;
+}
+
+.event.low{
+    border-left-color:#22c55e;
+}
+
+.event-header{
+    display:flex;
+    justify-content:space-between;
+    gap:10px;
+    margin-bottom:10px;
+}
+
+.badge{
+    padding:4px 7px;
+    font-size:10px;
+    border-radius:5px;
+    background:#263b52;
+}
+
+.event p{
+    color:#aebed0;
+    font-size:13px;
+    margin-top:6px;
+}
+
+.details-btn{
+    margin-top:12px;
+    background:#1e3a56;
+    border:1px solid #41617d;
+    color:white;
+    padding:8px 12px;
+    border-radius:6px;
+}
+
+/* ================= MODAL ================= */
+
+.modal{
+    display:none;
+    position:fixed;
+    inset:0;
+    background:rgba(0,0,0,.75);
+    z-index:100;
+    align-items:center;
+    justify-content:center;
+    padding:20px;
+}
+
+.modal-content{
+    width:100%;
+    max-width:600px;
+    background:#0e1d30;
+    border:1px solid #38536d;
+    border-radius:14px;
+    padding:25px;
+}
+
+.close{
+    float:right;
+    background:none;
+    border:0;
+    color:#94a3b8;
+    font-size:25px;
+}
+
+.profile{
+    margin-top:20px;
+}
+
+.profile-row{
+    display:flex;
+    justify-content:space-between;
+    padding:12px 0;
+    border-bottom:1px solid #263c53;
+}
+
+.warning{
+    background:#3a2510;
+    border:1px solid #80551e;
+    color:#facc15;
+    padding:15px;
+    border-radius:8px;
+    margin-top:18px;
+}
+
+.report{
+    margin-top:15px;
+    background:#b91c1c;
+    border:0;
+    color:white;
+    padding:12px 18px;
+    border-radius:7px;
+}
+
+/* ================= COOPERACION ================= */
+
+.cooperation{
+    margin-top:25px;
+    background:#0e1d30;
+    border:1px solid #233b55;
+    border-radius:12px;
+    padding:25px;
+}
+
+.cooperation-grid{
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:15px;
+    margin-top:15px;
+}
+
+.coop{
+    background:#14263c;
+    padding:18px;
+    border-radius:9px;
+}
+
+.coop h3{
+    margin-bottom:8px;
+}
+
+.coop p{
+    color:#9fb3c8;
+    line-height:1.5;
+    font-size:14px;
+}
+
+/* ================= FOOTER ================= */
+
+footer{
+    max-width:1400px;
+    margin:auto;
+    padding:30px;
+    color:#71849a;
+    font-size:13px;
+    line-height:1.6;
+}
+
+/* ================= RESPONSIVE ================= */
+
+@media(max-width:1000px){
+
+    .stats{
+        grid-template-columns:repeat(2,1fr);
+    }
+
+    .dashboard{
+        grid-template-columns:1fr;
+    }
+
+    .control-grid{
+        grid-template-columns:1fr 1fr;
+    }
+
+}
+
+@media(max-width:600px){
+
+    header{
+        padding:20px;
+    }
+
+    main{
+        padding:15px;
+    }
+
+    .stats{
+        grid-template-columns:1fr;
+    }
+
+    .control-grid{
+        grid-template-columns:1fr;
+    }
+
+    .cooperation-grid{
+        grid-template-columns:1fr;
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- ================= HEADER ================= -->
+
+<header>
+
+<div class="header">
+
+<div>
+
+<div class="logo">
+🌐 <span>Global</span> SafeNet
+</div>
+
+<div class="subtitle">
+Plataforma internacional de prevención y seguridad digital
+</div>
+
+</div>
+
+<div class="alliance">
+
+🇺🇸 Estados Unidos
+&nbsp; 🤝 &nbsp;
+🇷🇺 Rusia
+
+</div>
+
+</div>
+
+</header>
+
+
+<!-- ================= MENU ================= -->
+
+<nav>
+
+<div class="nav-content">
+
+<button class="nav-btn active">
+📊 Panel principal
+</button>
+
+<button class="nav-btn">
+🌎 Mapa global
+</button>
+
+<button class="nav-btn">
+🚨 Señales de riesgo
+</button>
+
+<button class="nav-btn">
+📋 Reportes
+</button>
+
+</div>
+
+</nav>
+
+
+<main>
+
+
+<!-- ================= TITLE ================= -->
+
+<section class="page-title">
+
+<h1>
+Centro Global de Seguridad Digital
+</h1>
+
+<p>
+Consulta señales de riesgo, eventos simulados y reportes
+de perfiles digitales que requieren revisión.
+</p>
+
+</section>
+
+
+<!-- ================= STATS ================= -->
+
+<section class="stats">
+
+<div class="stat">
+
+<div class="stat-title">
+EVENTOS ANALIZADOS
+</div>
+
+<div class="stat-number" id="total">
+5
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+SEÑALES DE RIESGO ALTO
+</div>
+
+<div class="stat-number red" id="high">
+2
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+PAÍSES SELECCIONADOS
+</div>
+
+<div class="stat-number yellow" id="countryCount">
+5
+</div>
+
+</div>
+
+
+<div class="stat">
+
+<div class="stat-title">
+SISTEMA
+</div>
+
+<div class="stat-number green">
+● ACTIVO
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= CONTROLES ================= -->
+
+<section class="controls">
+
+<h2>
+🔎 Buscar y filtrar información
+</h2>
+
+<div class="control-grid">
+
+<input
+id="search"
+type="text"
+placeholder="Buscar una cuenta o ciudad..."
+onkeyup="filtrar()"
+>
+
+
+<select id="country" onchange="filtrar()">
+
+<option value="todos">
+🌎 Todos los países
+</option>
+
+<option value="Colombia">
+🇨🇴 Colombia
+</option>
+
+<option value="Estados Unidos">
+🇺🇸 Estados Unidos
+</option>
+
+<option value="Rusia">
+🇷🇺 Rusia
+</option>
+
+<option value="España">
+🇪🇸 España
+</option>
+
+<option value="Brasil">
+🇧🇷 Brasil
+</option>
+
+</select>
+
+
+<select id="risk" onchange="filtrar()">
+
+<option value="todos">
+Todos los niveles
+</option>
+
+<option value="alto">
+🔴 Riesgo alto
+</option>
+
+<option value="medio">
+🟡 Riesgo medio
+</option>
+
+<option value="bajo">
+🟢 Riesgo bajo
+</option>
+
+</select>
+
+
+<button
+class="primary"
+onclick="limpiarFiltros()">
+Limpiar
+</button>
+
+</div>
+
+</section>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<section class="dashboard">
+
+
+<!-- MAPA -->
+
+<div class="map-box">
+
+<h2>
+🌎 Mapa internacional
+</h2>
+
+<div class="map">
+
+
+<!-- COLOMBIA -->
+
+<div
+class="marker high"
+style="left:31%;top:55%"
+onclick="mapaPais('Colombia','alto')">
+</div>
+
+
+<!-- USA -->
+
+<div
+class="marker medium"
+style="left:25%;top:32%"
+onclick="mapaPais('Estados Unidos','medio')">
+</div>
+
+
+<!-- RUSIA -->
+
+<div
+class="marker high"
+style="left:70%;top:25%"
+onclick="mapaPais('Rusia','alto')">
+</div>
+
+
+<!-- ESPAÑA -->
+
+<div
+class="marker low"
+style="left:50%;top:36%"
+onclick="mapaPais('España','bajo')">
+</div>
+
+
+<!-- BRASIL -->
+
+<div
+class="marker medium"
+style="left:40%;top:65%"
+onclick="mapaPais('Brasil','medio')">
+</div>
+
+
+<div class="map-label"
+style="left:27%;top:47%">
+Colombia
+</div>
+
+<div class="map-label"
+style="left:19%;top:25%">
+EE.UU.
+</div>
+
+<div class="map-label"
+style="left:67%;top:17%">
+Rusia
+</div>
+
+<div class="map-label"
+style="left:46%;top:29%">
+España
+</div>
+
+<div class="map-label"
+style="left:37%;top:71%">
+Brasil
+</div>
+
+
+<div
+class="map-info"
+id="mapInfo">
+
+Haz clic en un marcador para consultar
+el evento simulado de ese país.
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- EVENTOS -->
+
+<div class="events">
+
+<h2>
+🚨 Eventos recientes
+</h2>
+
+
+<div id="eventList">
+
+
+<div
+class="event high"
+data-country="Colombia"
+data-risk="alto"
+data-search="FS-001 Colombia Bogotá">
+
+<div class="event-header">
+
+<strong>
+FS-001 · Colombia
+</strong>
+
+<span class="badge">
+ALTO
+</span>
+
+</div>
+
+<p>📍 Bogotá</p>
+
+<p>
+⚠️ Información de perfil inconsistente.
+</p>
+
+<p>
+🕒 08:15
+</p>
+
+<button
+class="details-btn"
+onclick="verDetalles('FS-001','Colombia','Bogotá','Alto','Información inconsistente y actividad inusual')">
+
+Ver detalles
+</button>
+
+</div>
+
+
+<div
+class="event medium"
+data-country="Estados Unidos"
+data-risk="medio"
+data-search="FS-002 Estados Unidos Nueva York">
+
+<div class="event-header">
+
+<strong>
+FS-002 · Estados Unidos
+</strong>
+
+<span class="badge">
+MEDIO
+</span>
+
+</div>
+
+<p>📍 Nueva York</p>
+
+<p>
+⚠️ Actividad inusual detectada.
+</p>
+
+<p>
+🕒 08:21
+</p>
+
+<button
+class="details-btn"
+onclick="verDetalles('FS-002','Estados Unidos','Nueva York','Medio','Actividad inusual del perfil')">
+
+Ver detalles
+</button>
+
+</div>
+
+
+<div
+class="event high"
+data-country="Rusia"
+data-risk="alto"
+data-search="FS-003 Rusia Moscú">
+
+<div class="event-header">
+
+<strong>
+FS-003 · Rusia
+</strong>
+
+<span class="badge">
+ALTO
+</span>
+
+</div>
+
+<p>📍 Moscú</p>
+
+<p>
+⚠️ Varias señales requieren revisión.
+</p>
+
+<p>
+🕒 08:27
+</p>
+
+<button
+class="details-btn"
+onclick="verDetalles('FS-003','Rusia','Moscú','Alto','Varias señales de comportamiento inusual')">
+
+Ver detalles
+</button>
+
+</div>
+
+
+<div
+class="event low"
+data-country="España"
+data-risk="bajo"
+data-search="FS-004 España Madrid">
+
+<div class="event-header">
+
+<strong>
+FS-004 · España
+</strong>
+
+<span class="badge">
+BAJO
+</span>
+
+</div>
+
+<p>📍 Madrid</p>
+
+<p>
+⚠️ Perfil pendiente de revisión.
+</p>
+
+<p>
+🕒 08:33
+</p>
+
+<button
+class="details-btn"
+onclick="verDetalles('FS-004','España','Madrid','Bajo','Información pendiente de revisión')">
+
+Ver detalles
+</button>
+
+</div>
+
+
+<div
+class="event medium"
+data-country="Brasil"
+data-risk="medio"
+data-search="FS-005 Brasil Sao Paulo">
+
+<div class="event-header">
+
+<strong>
+FS-005 · Brasil
+</strong>
+
+<span class="badge">
+MEDIO
+</span>
+
+</div>
+
+<p>📍 São Paulo</p>
+
+<p>
+⚠️ Datos contradictorios.
+</p>
+
+<p>
+🕒 08:41
+</p>
+
+<button
+class="details-btn"
+onclick="verDetalles('FS-005','Brasil','São Paulo','Medio','Datos contradictorios')">
+
+Ver detalles
+</button>
+
+</div>
+
+
+</div>
+
+</div>
+
+</section>
+
+
+<!-- ================= COOPERACION ================= -->
+
+<section class="cooperation">
+
+<h2>
+🤝 Cooperación internacional
+</h2>
+
+<p style="color:#9fb3c8;margin-top:8px">
+
+En este prototipo, Estados Unidos y Rusia aparecen como
+países participantes en un escenario ficticio de cooperación
+internacional para la prevención de riesgos digitales.
+
+</p>
+
+
+<div class="cooperation-grid">
+
+
+<div class="coop">
+
+<h3>
+🇺🇸 Estados Unidos
+</h3>
+
+<p>
+Intercambio de información preventiva y
+educación sobre seguridad digital.
+</p>
+
+</div>
+
+
+<div class="coop">
+
+<h3>
+🇷🇺 Rusia
+</h3>
+
+<p>
+Participación en el escenario ficticio
+de cooperación internacional.
+</p>
+
+</div>
+
+
+<div class="coop">
+
+<h3>
+🌎 Cooperación global
+</h3>
+
+<p>
+Promoción de buenas prácticas para
+prevenir riesgos y proteger a usuarios.
+</p>
+
+</div>
+
+
+</div>
+
+</section>
+
+
+</main>
+
+
+<!-- ================= MODAL ================= -->
+
+<div
+class="modal"
+id="modal">
+
+<div class="modal-content">
+
+<button
+class="close"
+onclick="cerrarModal()">
+×
+</button>
+
+<h2>
+👤 Información del evento
+</h2>
+
+<div
+class="profile"
+id="profile">
+</div>
+
+<div class="warning">
+
+⚠️ Esta información es completamente simulada.
+Una señal de riesgo no demuestra que una cuenta
+pertenezca a un delincuente ni identifica por sí sola
+una situación de trata.
+
+</div>
+
+<button
+class="report"
+onclick="marcarRevision()">
+
+🚩 Marcar para revisión
+
+</button>
+
+</div>
+
+</div>
+
+
+<footer>
+
+<strong>Global SafeNet</strong> — Proyecto educativo de seguridad digital.
+
+<br><br>
+
+Los perfiles, eventos, ubicaciones y horarios mostrados
+son ficticios y únicamente sirven para demostrar
+el funcionamiento de la interfaz.
+
+</footer>
+
+
+<script>
+
+/* ================= FILTRAR ================= */
+
+function filtrar(){
+
+    const texto =
+        document.getElementById("search")
+        .value
+        .toLowerCase();
+
+    const pais =
+        document.getElementById("country")
+        .value;
+
+    const riesgo =
+        document.getElementById("risk")
+        .value;
+
+    const eventos =
+        document.querySelectorAll(".event");
+
+    let visibles=0;
+    let altos=0;
+
+    eventos.forEach(evento=>{
+
+        const contenido =
+            evento.dataset.search.toLowerCase();
+
+        const eventoPais =
+            evento.dataset.country;
+
+        const eventoRiesgo =
+            evento.dataset.risk;
+
+        const coincideTexto =
+            contenido.includes(texto);
+
+        const coincidePais =
+            pais==="todos" ||
+            eventoPais===pais;
+
+        const coincideRiesgo =
+            riesgo==="todos" ||
+            eventoRiesgo===riesgo;
+
+        if(
+            coincideTexto &&
+            coincidePais &&
+            coincideRiesgo
+        ){
+
+            evento.style.display="block";
+            visibles++;
+
+            if(eventoRiesgo==="alto"){
+                altos++;
+            }
+
+        }else{
+
+            evento.style.display="none";
+
+        }
+
+    });
+
+    document.getElementById("total")
+        .textContent=visibles;
+
+    document.getElementById("high")
+        .textContent=altos;
+
+}
+
+
+/* ================= LIMPIAR ================= */
+
+function limpiarFiltros(){
+
+    document.getElementById("search").value="";
+
+    document.getElementById("country").value="todos";
+
+    document.getElementById("risk").value="todos";
+
+    filtrar();
+
+}
+
+
+/* ================= MAPA ================= */
+
+function mapaPais(pais,risk){
+
+    let texto="";
+
+    if(risk==="alto"){
+        texto="🔴 Señal de riesgo alto";
+    }
+
+    if(risk==="medio"){
+        texto="🟡 Señal de riesgo medio";
+    }
+
+    if(risk==="bajo"){
+        texto="🟢 Señal de riesgo bajo";
+    }
+
+    document.getElementById("mapInfo").innerHTML=
+
+        "<strong>"+pais+"</strong><br>"+
+        texto+
+        "<br><small>Evento simulado para demostración.</small>";
+
+}
+
+
+/* ================= DETALLES ================= */
+
+function verDetalles(
+    id,
+    pais,
+    ciudad,
+    riesgo,
+    motivo
+){
+
+    document.getElementById("profile").innerHTML=`
+
+        <div class="profile-row">
+            <strong>ID del evento</strong>
+            <span>${id}</span>
+        </div>
+
+        <div class="profile-row">
+            <strong>País</strong>
+            <span>${pais}</span>
+        </div>
+
+        <div class="profile-row">
+            <strong>Ciudad</strong>
+            <span>${ciudad}</span>
+        </div>
+
+        <div class="profile-row">
+            <strong>Nivel de señal</strong>
+            <span>${riesgo}</span>
+        </div>
+
+        <div class="profile-row">
+            <strong>Motivo</strong>
+            <span>${motivo}</span>
+        </div>
+
+        <div class="profile-row">
+            <strong>Estado</strong>
+            <span>Pendiente de revisión</span>
+        </div>
+
+    `;
+
+    document.getElementById("modal")
+        .style.display="flex";
+
+}
+
+
+/* ================= CERRAR ================= */
+
+function cerrarModal(){
+
+    document.getElementById("modal")
+        .style.display="none";
+
+}
+
+
+/* ================= MARCAR ================= */
+
+function marcarRevision(){
+
+    alert(
+        "El evento ha sido marcado para revisión en este prototipo."
+    );
+
+}
+
+
+/* cerrar al hacer clic afuera */
+
+window.onclick=function(event){
+
+    const modal =
+        document.getElementById("modal");
+
+    if(event.target===modal){
+        cerrarModal();
+    }
+
+}
+
+</script>
+
+</body>
+</html>
